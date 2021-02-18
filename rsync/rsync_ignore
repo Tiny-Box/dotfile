@@ -1,0 +1,11 @@
+.idea
+*.swo
+*.swp
+*~
+*.iml
+
+.git
+output
+_novendor
+vendor
+

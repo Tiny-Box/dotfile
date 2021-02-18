@@ -1,0 +1,98 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+source ~/powerlevel10k/powerlevel10k.zsh-theme
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git zsh-autosuggestions)
+
+# User configuration
+
+# export PATH="/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+# export MANPATH="/usr/local/man:$MANPATH"
+export PATH="/usr/local/sbin:$PATH"
+export PATH="/usr/local/opt/bison/bin:$PATH"
+export PATH="/usr/local/opt/llvm/bin:$PATH"
+export PATH="$HOME/Library/Python/2.7/bin:$PATH"
+export LDFLAGS="-L/usr/local/opt/bison/lib"
+export C_INCLUDE_PATH=/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include
+export CPLUS_INCLUDE_PATH=/Library/Developer/CommandLineTools/usr/include/c++/v1
+
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# ssh
+# export SSH_KEY_PATH="~/.ssh/dsa_id"
+
+# docker
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+alias php3="python3 -m pip"
+alias psg="ps aux | grep $1"
+alias cleandns='sudo killall -HUP mDNSResponder;sudo killall mDNSResponderHelper;sudo dscacheutil -flushcache'
+alias restartaudio='sudo killall coreaudiod'
+
+# proxy
+alias proxy='export all_proxy=socks5://127.0.0.1:1086'
+alias unproxy='unset all_proxy'
+
+# figlet
+alias figletall='function _figletall(){ figlet -f doom $1; figlet -f puffy $1; figlet -f banner $1; figlet -f bell $1; figlet -f big $1; figlet -f cybermedium $1; figlet -f epic $1; figlet -f isometric1 $1; figlet -f larry3d $1; figlet -f ogre $1; figlet -f slant $1; figlet -f smkeyboard $1; figlet -f starwars $1;};_figletall'
+
+#vim todo
+alias tasks='ag -r "TODO|FIXME" . 2>/dev/null'
+
+# vim and neovim
+alias vi='vim'
+alias vim='nvim'
+
+# normal
+alias l='gls -alh --color=auto'
+alias ll='gls -lh --color=auto'
+alias la='gls -ah --color=auto'
+
+smartkill() {
+    ps aux | grep -v grep | grep $1 | awk '{print $2}' | xargs kill -9
+}
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# company setting
+if [ -f ~/.zshrc-company.zsh ]; then
+    source ~/.zshrc-company.zsh
+fi
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+autoload -U compinit && compinit
+zmodload -i zsh/complist
+

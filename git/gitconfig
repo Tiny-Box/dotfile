@@ -1,0 +1,40 @@
+[core]
+  filemode = false
+  ignorecase = false
+  editor = nvim
+  pager = diff-so-fancy | less --tabs=4 -RFX
+  excludesfile = /Users/tinybox/.gitignore_global
+[user]
+  name = Tiny-Box
+  email = tinybox.17@gmail.com
+[color]
+	ui = true
+[alias]
+  logg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  co = checkout 
+  cb = checkout -b 
+  sync = pull local master
+  bv = branch -v
+  bd = branch -d
+  bD = branch -D
+  br = branch -dr
+  df = diff
+  dff = diff --name-only --diff-filter=d | xargs bat --diff
+  cp = cherry-pick
+  ss = status
+[push]
+  default = simple
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+[color "diff"]
+	meta = yellow
+	frag = magenta bold
+	commit = yellow bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
+[includeIf "gitdir/i:~/workplace/company/"]
+    path = ~/.gitconfig_company

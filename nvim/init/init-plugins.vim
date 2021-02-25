@@ -585,8 +585,6 @@ let g:asyncrun_open = 6
 let g:asynctasks_extra_config = [
 \ '~/.config/task/task.ini',
 \ ]
-nnoremap <leader>u :AsyncTask upload<cr>
-let g:asynctasks_environ = {'remote_path':'wangyanxiang@10.231.243.17:~/repos/', 'ignore_path': '/Users/admin/.rsync_ignore'}
 
 " }}}
 
@@ -605,7 +603,7 @@ let g:Lf_ShortcutB = '<c-m>'
 noremap <c-m> :LeaderfBuffer<cr>
 
 " rg搜索文本
-noremap <leader>f :Leaderf rg --wd-mode=ac -e 
+noremap <c-f> :Leaderf rg --wd-mode=ac -e 
 
 " ALT+p 打开函数列表，按 i 进入模糊匹配，ESC 退出
 " π is for mac alt+p

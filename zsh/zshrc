@@ -68,7 +68,7 @@ alias figletall='function _figletall(){ figlet -f doom $1; figlet -f puffy $1; f
 alias tasks='ag -r "TODO|FIXME" . 2>/dev/null'
 
 # vim and neovim
-alias vi='vim'
+alias vi='/usr/local/Cellar/neovim/0.5.0/bin/nvim'
 alias vim='nvim'
 
 # normal
@@ -95,4 +95,3 @@ source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 autoload -U compinit && compinit
 zmodload -i zsh/complist
-

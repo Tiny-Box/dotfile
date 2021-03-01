@@ -20,6 +20,7 @@ command! -nargs=1 LoadScript exec 'so '.s:home.'/'.'<args>'
 
 " " 将 vim-init 目录加入 runtimepath
 exec 'set rtp+='.s:home
+exec 'set rtp+=~/.vim'
 
 "----------------------------------------------------------------------
 " 模块加载
@@ -33,6 +34,11 @@ LoadScript init/init-basic.vim
 
 " 自定义按键
 LoadScript init/init-keymaps.vim
+
+" nvim-0.5 配适
+if has('nvim-0.5')
+    LoadScript init/init-nvim-0.5.vim
+endif
 
 " 加载扩展配置
 " LoadScript init/init-config.vim

@@ -1,14 +1,15 @@
 "======================================================================
 "
-" init-plugins.vim - 
+" init-plugins.vim -
 "
 "======================================================================
 
 " group setting
 if !exists('g:bundle_group')
 	let g:bundle_group = ['basic', 'filetypes', 'enhanced', 'linter', 'fileManager', 'search', 'move']
-	let g:bundle_group += ['vim-lsp']
-	let g:bundle_group += ['lsp:coc']
+    let g:bundle_group += ['vim-lsp']
+"     let g:bundle_group += ['vim-go']
+"     let g:bundle_group += ['lsp:coc']
 endif
 
 call plug#begin('~/.config/nvim/plugged')
@@ -68,7 +69,7 @@ if index(g:bundle_group, 'filetypes') >= 0
     let g:jedi#rename_command = ""
     Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins', 'for': 'python'}
     "
-    
+
     " PHP
     Plug 'StanAngeloff/php.vim', {'for': 'php'}
     Plug 'beanworks/vim-phpfmt', {'for': 'php'}
@@ -140,6 +141,10 @@ if index(g:bundle_group, 'enhanced') >= 0
 
     " auto-completion for quotes, parens, brackets, etc
     Plug 'Raimondi/delimitMate'
+
+    " git
+    Plug 'tpope/vim-fugitive'
+    Plug 'airblade/vim-gitgutter'
 endif
 
 if index(g:bundle_group, 'linter') > 0
@@ -148,6 +153,7 @@ if index(g:bundle_group, 'linter') > 0
     let g:ale_linters = {
                 \   'sh' : ['shellcheck'],
                 \   'go' : ['gobuild', 'golint'],
+                \   'cpp' : ['clangd'],
                 \   'vim' : ['vint'],
                 \   'html' : ['tidy'],
                 \   'python' : ['flake8'],
@@ -285,7 +291,7 @@ if index(g:bundle_group, 'search') >= 0
     noremap <c-m> :LeaderfBuffer<cr>
 
     " rg搜索文本
-    noremap <c-f> :Leaderf rg --wd-mode=ac -e 
+    noremap <c-f> :Leaderf rg --wd-mode=ac -e
 
     " ALT+p 打开函数列表，按 i 进入模糊匹配，ESC 退出
     " π is for mac alt+p
@@ -336,10 +342,36 @@ if index(g:bundle_group, 'search') >= 0
             \ }
 endif
 
-if index(g:bundle_group, 'move') >= 0
+if index(g:bundle_group, 'vim-lsp') >= 0 && has('nvim-0.5')
+    Plug 'neovim/nvim-lspconfig'
+    Plug 'nvim-lua/completion-nvim'
+    command! LspHover lua vim.lsp.buf.hover()<CR>
+    command! LspDisable lua vim.lsp.stop_client(vim.lsp.get_active_clients())<CR>
+
+
+    " Completion
+    autocmd BufEnter * lua require'completion'.on_attach()
+    " Use <Tab> and <S-Tab> to navigate through popup menu
+    inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+    " Set completeopt to have a better completion experience
+    set completeopt=menuone,noinsert,noselect
+
+    " Avoid showing message extra message when using completion
+    set shortmess+=c
+
+    let g:completion_enable_auto_signature = 1
+    let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+
+    " Show errors after 1 second
+    set updatetime=1000
+
+    let g:diagnostic_insert_delay =1
+    let g:diagnostic_enable_ale = 1
 endif
 
-if index(g:bundle_group, 'lsp:coc') >= 0
+if index(g:bundle_group, 'lsp:coc') >= 0 && !has('nvim-0.5')
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     " coc for lsp
 
@@ -385,7 +417,7 @@ if index(g:bundle_group, 'lsp:coc') >= 0
     nmap <silent> gy <Plug>(coc-type-definition)
     nmap <silent> gi <Plug>(coc-implementation)
     " coc has some wrong in module nvim setting, dirty fix
-    nmap <silent> gr :GoReferrers<cr>
+    nmap <silent> gr <Plug>(coc-references)
     autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR> :lclose<CR>
 
     " nmap <silent> gr <Plug>(coc-references)
@@ -465,6 +497,12 @@ if index(g:bundle_group, 'vim-go') >= 0
 
     let g:go_fmt_command = "gofumpt"
     let g:go_fmt_autosave = 1
+
+    nmap <silent> gd :GoDef<CR>
+"     nmap <silent> gy <Plug>(coc-type-definition)
+"     nmap <silent> gi <Plug>(coc-implementation)
+    " coc has some wrong in module nvim setting, dirty fix
+    nmap <silent> gr :GoReferrers<CR>
 
     " let g:go_def_mode='gopls'
     " let g:go_info_mode='gopls'

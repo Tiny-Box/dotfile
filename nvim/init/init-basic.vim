@@ -43,6 +43,8 @@ autocmd! BufWritePost ~/.config/nvim/init.vim source ~/.config/nvim/init.vim
 
 " set clipboard
 set clipboard+=unnamed
+set clipboard+=unnamedplus
+
 
 " }}}
 
@@ -154,9 +156,11 @@ if has('folding')
 	" default turn on all level
 	set foldlevel=99
 
-    augroup remember_folds
-      autocmd!
-      au BufWinLeave ?* mkview 1
-      au BufWinEnter ?* silent! loadview 1
-    augroup END
+    " don't save view when you change plugins frequently
+    " some plugins will remap
+"     augroup remember_folds
+"       autocmd!
+"       au BufWinLeave ?* mkview 1
+"       au BufWinEnter ?* silent! loadview 1
+"     augroup END
 endif

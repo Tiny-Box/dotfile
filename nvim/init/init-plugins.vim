@@ -7,9 +7,9 @@
 " group setting
 if !exists('g:bundle_group')
 	let g:bundle_group = ['basic', 'filetypes', 'enhanced', 'linter', 'fileManager', 'search', 'move']
-    let g:bundle_group += ['vim-lsp']
+"     let g:bundle_group += ['vim-lsp']
 "     let g:bundle_group += ['vim-go']
-"     let g:bundle_group += ['lsp:coc']
+    let g:bundle_group += ['lsp:coc']
 endif
 
 call plug#begin('~/.config/nvim/plugged')
@@ -49,6 +49,9 @@ if index(g:bundle_group, 'basic') >= 0
 endif
 
 if index(g:bundle_group, 'filetypes') >= 0
+    "all
+"     Plug 'sheerun/vim-polyglot'
+
     " Python
     Plug 'tell-k/vim-autopep8', {'for': 'python'}
     autocmd FileType python noremap <buffer> <C-=> :call Autopep8()<CR>
@@ -340,6 +343,10 @@ if index(g:bundle_group, 'search') >= 0
             \ "BufTag": [["<ESC>", ':exec g:Lf_py "bufTagExplManager.quit()"<cr>']],
             \ "Function": [["<ESC>", ':exec g:Lf_py "functionExplManager.quit()"<cr>']],
             \ }
+
+    Plug 'liuchengxu/vista.vim'
+    let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+    nnoremap <space>l :Vista coc<cr>
 endif
 
 if index(g:bundle_group, 'vim-lsp') >= 0 && has('nvim-0.5')
@@ -348,9 +355,17 @@ if index(g:bundle_group, 'vim-lsp') >= 0 && has('nvim-0.5')
     command! LspHover lua vim.lsp.buf.hover()<CR>
     command! LspDisable lua vim.lsp.stop_client(vim.lsp.get_active_clients())<CR>
 
+    nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+    nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+    nnoremap <silent> <A-r>    <cmd>lua vim.lsp.buf.rename()<CR>
+    nnoremap <silent> gh     <cmd>lua vim.lsp.buf.hover()<CR>
+    nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+    nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+    nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+    nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+    nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 
     " Completion
-    autocmd BufEnter * lua require'completion'.on_attach()
     " Use <Tab> and <S-Tab> to navigate through popup menu
     inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
     inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
@@ -371,7 +386,7 @@ if index(g:bundle_group, 'vim-lsp') >= 0 && has('nvim-0.5')
     let g:diagnostic_enable_ale = 1
 endif
 
-if index(g:bundle_group, 'lsp:coc') >= 0 && !has('nvim-0.5')
+if index(g:bundle_group, 'lsp:coc') >= 0
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     " coc for lsp
 
@@ -437,10 +452,10 @@ if index(g:bundle_group, 'lsp:coc') >= 0 && !has('nvim-0.5')
 
 
     " Highlight the symbol and its references when holding the cursor.
-    autocmd CursorHold * silent call CocActionAsync('highlight')
+"     autocmd CursorHold * silent call CocActionAsync('highlight')
 
     " Symbol renaming.
-    nmap <leader>rn <Plug>(coc-rename)
+    nmap <A-r> <Plug>(coc-rename)
 
     " Formatting selected code.
     " xmap <leader>f  <Plug>(coc-format-selected)
